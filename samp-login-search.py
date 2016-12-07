@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
+import HTMLTestRunner
 
 class SampLoginSearch(unittest.TestCase):
     def setUp(self):
@@ -54,4 +55,11 @@ class SampLoginSearch(unittest.TestCase):
         self.assertEqual([], self.verificationErrors)
 
 if __name__ == "__main__":
-    unittest.main()
+    #unittest.main()
+    testunit=unittest.TestSuite()
+    testunit.addTest(SampLoginSearch("test_samp_login_search"))
+    now=time.strftime("%Y-%m-%M-%H_%M_%S",time.localtime(time.time()))
+    fp=open("result"+now+".html",'wb')
+    runner=HTMLTestRunner.HTMLTestRunner(stream=fp,title=u"test result",description=u"The result about testcase")
+    runner.run(testunit)
+    fp.close()
